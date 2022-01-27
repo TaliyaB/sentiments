@@ -1,0 +1,10 @@
+setup.py
+sentiments/MachineLearning.py
+sentiments/TextProcessor.py
+sentiments/Visualizer.py
+sentiments.egg-info/PKG-INFO
+sentiments.egg-info/SOURCES.txt
+sentiments.egg-info/dependency_links.txt
+sentiments.egg-info/not-zip-safe
+sentiments.egg-info/top_level.txt
+test/test.py
