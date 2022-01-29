@@ -5,7 +5,7 @@ import nltk
 #nltk.download('stopwords')
 #nltk.download('averaged_perceptron_tagger')
 #nltk.download('wordnet')
-nltk.download('vader_lexicon')
+#nltk.download('vader_lexicon')
 import spacy
 #spacy.cli.download("en_core_web_md")
 import en_core_web_md
@@ -17,6 +17,8 @@ import gensim
 from gensim import  corpora
 import pyLDAvis.gensim_models
 import  pickle
+import numpy as np
+
 class MachineLearning():
     def __init__(self, df_for_sentiment_analysis, tokens_per_question, respondents_by_course, respondents_by_block, total_respondents):
         #inputs
@@ -33,6 +35,9 @@ class MachineLearning():
         self.df_positive_predicted_sentiments = None
         self.df_negative_predicted_sentiments = None
 
+        self.list_freq_pos_sentiments_per_question = None
+        self.list_freq_neg_sentiments_per_question = None
+
         self.lda_model = None
         self.dtm_tfidf = None
         self.tfidf_vectorizer = None
@@ -48,7 +53,7 @@ class MachineLearning():
         nouns = []
         tagged_words = nltk.pos_tag(tokens_per_question)
         for (txt, tag) in tagged_words:
-            if (tag in pos_tag):
+            if  (tag in pos_tag):
                 nouns.append(txt)
         freq_dist = nltk.FreqDist(n for n in nouns)
         cols = ['Noun' , 'Frequency']
@@ -90,6 +95,7 @@ class MachineLearning():
         pos_sentiments_tokens = []
         neg_sentiments = []
         neg_sentiments_tokens = []
+
         for i in range(len(self.input_df_for_sentiment_analysis['Text'])):
             scores = [
                sentiment.polarity_scores(sentence)['compound'] for sentence in nltk.sent_tokenize( self.input_df_for_sentiment_analysis.iat[i,0])
@@ -117,12 +123,25 @@ class MachineLearning():
             list(zip(neg_sentiments, neg_sentiments_tokens)),
             columns= category_cols
         )
+
+        pos_sentiments_per_question = np.zeros(7)
+        neg_sentiments_per_question = np.zeros(7)
+        data = self.df_sentiment_analysis_result
+
+        for i in range(len(data['Question Number'])):
+            index = int(data.iat[i,3])
+            if data.iat[i,2]=='positive':
+                pos_sentiments_per_question[index-1]+=1
+            if data.iat[i,2]=='negative':
+                neg_sentiments_per_question[index-1]+=1
+        self.list_freq_neg_sentiments_per_question = neg_sentiments_per_question
+        self.list_freq_pos_sentiments_per_question = pos_sentiments_per_question
         return
 
     def LatentDirichletAllocation(self, tokens, filename_lda_model, filename_corpus, filename_dictionary):
         dictionary = corpora.Dictionary(tokens)
         corpus = [dictionary.doc2bow(text) for text in tokens]
-        num_topics = 5
+        num_topics = 7
         lda_model = gensim.models.ldamodel.LdaModel(
             corpus=corpus , num_topics=num_topics,
             id2word=dictionary,passes=15
@@ -130,7 +149,7 @@ class MachineLearning():
         #print topics
         topics = lda_model.print_topics(num_words=6)
         for topic in topics:
-            print(topic)
+            print("Topics : {} ".format(topic))
 
         #save for future use
         pickle.dump(corpus, open(filename_corpus, 'wb'))

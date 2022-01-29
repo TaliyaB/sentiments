@@ -9,11 +9,13 @@ class Visualizer():
     def __init__(self):
         return
 
-    def bar(self, x_data, y_data, title, x_label, y_label, output_file):
+    def bar(self, x_data, y_data, x_label, title, output_file):
         fontsize = 10
-        print("Generating {} Bar".format(title))
+        print("Generating {}".format(title))
+        plt.figure(figsize=(8,5))
         plt.bar(x_data,y_data)
         plt.title(title)
+        y_label = "Number of Respondents"
         plt.xlabel(x_label, fontsize=fontsize, labelpad=10)
         plt.xticks(rotation=45)
         plt.ylabel(y_label, fontsize=fontsize)
@@ -22,10 +24,16 @@ class Visualizer():
         plt.savefig(output_file)
         return
 
-    def multiple_bar(self, x_data, y0_data, y1_data, title, x_label, y0_label, y1_label, y_label, output_file):
+    def multiple_bar_for_sentiment_analysis(self, y0_data, y1_data, title, output_file):
         fontsize = 10
-        print("Generating {} Pie".format(title))
+        x_label = "Question Number"
+        x_data =["1", "2", "3", "4", "5", "6", "7"]
+        y0_label = "Positive"
+        y1_label = "Negative"
+        y_label = "Frequency"
+        print("Generating {}".format(title))
         x_axis = np.arange(len(x_data))
+        plt.figure(figsize=(8,5))
         plt.bar(x_axis-0.2, y0_data, 0.4, label=y0_label)
         plt.bar(x_axis+0.2, y1_data, 0.4, label=y1_label)
         plt.xticks(x_axis, x_data)
@@ -37,11 +45,28 @@ class Visualizer():
         plt.savefig(output_file)
         return
 
-    def pie(self):
-
+    def pie(self, x_data, y_data, title, output_filename):
+        colors = plt.get_cmap('Blues')(np.linspace(0.2, 0.7, len(x_data)))
+        #plot
+        fig, ax = plt.subplots(figsize=(8,5))
+        ax.pie(y_data, labels=x_data, autopct='%1.1f%%')
+        ax.axis('equal')  #draw as circle
+        plt.show()
         return
 
-    def multiple_pie(self):
+    def multiple_bar_for_top_n_words(self, df_top_n_words, word_type, title, output_file):
+        fig, axs = plt.subplots(3,3, figsize=(15,12), sharey=True)
+        fig.suptitle(title)
+        for i in range(3):
+            axs[0][i].plot(df_top_n_words[i][word_type],
+                           df_top_n_words[i]['Frequency'])
+            axs[0][i].set_title(str(i+1))
+            axs[1][i].plot(df_top_n_words[i+1][word_type],
+                           df_top_n_words[i+1]['Frequency'])
+            axs[1][i].set_title(str(4 + i))
+        axs[2][0].plot(df_top_n_words[6][word_type],
+                      df_top_n_words[6]['Frequency'])
+        axs[2][0].set_title(str(7))
         return
 
     def wordCloud(self, text, color, title, output_file):
@@ -49,7 +74,7 @@ class Visualizer():
         h = 800
         margin = 2
         min_font_size = 20
-        figsize = (15, 10)
+        figsize = (12, 8)
         text_str = ' '.join(str(e) for e in text)
         wordCloud = WordCloud(
             collocations=False, background_color=color, stopwords=set(STOPWORDS), width=w, height=h, margin=margin,
