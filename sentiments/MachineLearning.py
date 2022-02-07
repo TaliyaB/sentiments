@@ -143,7 +143,7 @@ class MachineLearning():
         corpus = [dictionary.doc2bow(text) for text in tokens]
         num_topics = 7
         lda_model = gensim.models.ldamodel.LdaModel(
-            corpus=corpus , num_topics=num_topics, random_state=100, update_every=1
+            corpus=corpus , num_topics=num_topics, random_state=100, update_every=1,
             id2word=dictionary,passes=15
         )
         #print topics
