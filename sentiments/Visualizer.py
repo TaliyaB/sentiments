@@ -1,91 +1,107 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 import os
-from wordcloud import WordCloud, STOPWORDS
-from sentiments import MachineLearning
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+from  nltk.corpus import stopwords
+from  nltk.tokenize import word_tokenize
+import spacy
+spacy.cli.download("en_core_web_md")
+import en_core_web_md
 
-class Visualizer():
+class TextProcessor():
     def __init__(self):
+        self.df_parsed_data = []
+        self.dict_respondents_block = None
+        self.dict_respondents_course = {'BSIT':0 , 'BSCS': 0, 'BSIS':0, 'BSIT-Animation':0}
+
+        self.int_respondents_count = None
+        self.text_lemmatized = None
+        self.text_removed_stopwords = None
+        self.text_cleaned = None
+
+        self.list_texts = []
+        self.list_question_number = []
+        self.list_tokens_per_text = []
+        self.df_for_sentiment_analysis = None
+
+        self.list_tokens_per_question = []
+
+        #final df to be passed
+        self.df_final_data_for_sentiment_analysis = None
+
+        #dummy placeholder
+        self.df_dummy = None
+
+    def parse_respondents(self, df):
+        #count respondents per block
+        self.df_dummy = df['Year & Course']
+        self.dict_respondents_block = self.df_dummy.value_counts().to_dict()
+        #number of respondents
+        self.int_respondents_count = len(self.df_dummy)
+        #count respondents per course
+        for i in range(len(self.df_dummy)):
+            print(self.df_dummy[i])
+            if 'bsit' in self.df_dummy[i].lower() and 'animation' not in self.df_dummy[i].lower():
+                self.dict_respondents_course['BSIT']+=1
+            if 'bscs' in self.df_dummy[i].lower():
+                self.dict_respondents_course['BSCS']+=1
+            if 'bsis' in self.df_dummy[i].lower():
+                self.dict_respondents_course['BSIS']+=1
+            if 'animation' in self.df_dummy[i].lower():
+                self.dict_respondents_course['BSIT-Animation']+=1
+        self.df_dummy = None
         return
 
-    def bar(self, x_data, y_data, x_label, title, output_file):
-        fontsize = 10
-        print("Generating {}".format(title))
-        plt.figure(figsize=(8,5))
-        plt.bar(x_data,y_data)
-        plt.title(title)
-        y_label = "Number of Respondents"
-        plt.xlabel(x_label, fontsize=fontsize, labelpad=10)
-        plt.xticks(rotation=45)
-        plt.ylabel(y_label, fontsize=fontsize)
-        plt.tight_layout()
-        plt.show()
-        plt.savefig(output_file)
+    def remove_stopwords(self, text):
+        stopwords = set(nltk.corpus.stopwords.words('english'))
+        words : list[str] = nltk.word_tokenize(text)
+        words = [w for w in words if w.lower() not in stopwords and w.isalnum()]
+        return words
+
+    def tokens_per_question(self, list):
+        tmp_list = []
+        for text in list:
+            words = self.remove_stopwords(text)
+            self.list_tokens_per_text.append(words)
+            for w in words:
+                tmp_list.append(w)
+        self.list_tokens_per_question.append(tmp_list)
         return
 
-    def multiple_bar_for_sentiment_analysis(self, y0_data, y1_data, title, output_file):
-        fontsize = 10
-        x_label = "Question Number"
-        x_data =["1", "2", "3", "4", "5", "6", "7"]
-        y0_label = "Positive"
-        y1_label = "Negative"
-        y_label = "Frequency"
-        print("Generating {}".format(title))
-        x_axis = np.arange(len(x_data))
-        plt.figure(figsize=(8,5))
-        plt.bar(x_axis-0.2, y0_data, 0.4, label=y0_label)
-        plt.bar(x_axis+0.2, y1_data, 0.4, label=y1_label)
-        plt.xticks(x_axis, x_data)
-        plt.xlabel(x_label)
-        plt.ylabel(y_label)
-        plt.title(title)
-        plt.legend()
-        plt.show()
-        plt.savefig(output_file)
+    def parse_texts_for_sentiment_analysis(self):
+        data = self.df_parsed_data
+        for i in range(len(data)):
+            text_list = data[i].tolist()
+            q_number = i+1
+            for txt in text_list:
+                self.list_texts.append(txt)
+                self.list_question_number.append(q_number)
+            self.tokens_per_question(text_list)
         return
 
-    def pie(self, x_data, y_data, title, output_filename):
-        colors = plt.get_cmap('Blues')(np.linspace(0.2, 0.7, len(x_data)))
-        #plot
-        fig, ax = plt.subplots(figsize=(8,5))
-        ax.pie(y_data, labels=x_data, autopct='%1.1f%%')
-        ax.axis('equal')  #draw as circle
-        plt.show()
+    def construct_final_df_for_sentiment_analysis(self):
+        cols = ['Text' , 'Tokens', 'Question Number']
+        self.df_final_data_for_sentiment_analysis = pd.DataFrame(
+            list(zip(self.list_texts, self.list_tokens_per_text, self.list_question_number)),
+            columns=cols
+        )
         return
 
-    def multiple_bar_for_top_n_words(self, df_top_n_words, word_type, title, output_file):
-        fig, axs = plt.subplots(3,3, figsize=(15,12), sharey=True)
-        fig.suptitle(title)
-        for i in range(3):
-            axs[0][i].plot(df_top_n_words[i][word_type],
-                           df_top_n_words[i]['Frequency'])
-            axs[0][i].set_title(str(i+1))
-            axs[1][i].plot(df_top_n_words[i+1][word_type],
-                           df_top_n_words[i+1]['Frequency'])
-            axs[1][i].set_title(str(4 + i))
-        axs[2][0].plot(df_top_n_words[6][word_type],
-                      df_top_n_words[6]['Frequency'])
-        axs[2][0].set_title(str(7))
-        return
+    def parser(self,path):
+        # get dataframe for each question and append to list
+        data = pd.read_csv(path)
+        n = self.int_respondents_count
+        #answers to questions
+        for i in range(4,len(data.columns)):
+            self.df_parsed_data.append(data[data.columns[i]])
+        #parse respondents data
+        self.parse_respondents(data)
+        self.parse_texts_for_sentiment_analysis()
+        #construct final dataframe
+        self.construct_final_df_for_sentiment_analysis()
 
-    def wordCloud(self, text, color, title, output_file):
-        w = 1600
-        h = 800
-        margin = 2
-        min_font_size = 20
-        figsize = (12, 8)
-        text_str = ' '.join(str(e) for e in text)
-        wordCloud = WordCloud(
-            collocations=False, background_color=color, stopwords=set(STOPWORDS), width=w, height=h, margin=margin,
-            min_font_size=min_font_size).generate(text_str)
-        plt.figure(figsize= figsize)
-        plt.imshow(wordCloud, interpolation='bilinear')
-        plt.axis('off')
-        plt.figtext(0.5, 0.8, title, fontsize = 20, ha='center')
-        plt.savefig(output_file)
-        plt.show()
-        return
-
-    def display_img(self):
+    def convert_to_csv(self, output_filename):
         return

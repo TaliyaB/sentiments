@@ -15,3 +15,5 @@ pyldavis
 gensim
 pyLDAvis
 spacy
+flask
+flask_bootstrap

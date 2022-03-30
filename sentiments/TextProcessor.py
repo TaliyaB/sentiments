@@ -15,7 +15,7 @@ class TextProcessor():
     def __init__(self):
         self.df_parsed_data = []
         self.dict_respondents_block = None
-        self.dict_respondents_course = {'BSIT':0 , 'BSCS': 0}
+        self.dict_respondents_course = {'BSIT':0 , 'BSCS': 0, 'BSIS':0, 'BSIT-Animation':0}
 
         self.int_respondents_count = None
         self.text_lemmatized = None
@@ -43,10 +43,14 @@ class TextProcessor():
         self.int_respondents_count = len(self.df_dummy)
         #count respondents per course
         for i in range(len(self.df_dummy)):
-            if 'BSIT' in self.df_dummy[i]:
+            if 'bsit' in self.df_dummy[i].lower():
                 self.dict_respondents_course['BSIT']+=1
-            elif 'BSCS' in self.df_dummy[i]:
+            if 'bscs' in self.df_dummy[i].lower:
                 self.dict_respondents_course['BSCS']+=1
+            if 'bsis' in self.df_dummy[i].lower():
+                self.dict_respondents_course['BSIS']+=1
+            if 'animation' in self.df_dummy[i].lower():
+                self.dict_respondents_course['BSIT-Animation'].lower()
         self.df_dummy = None
         return
 

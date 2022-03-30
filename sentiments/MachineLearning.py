@@ -124,8 +124,8 @@ class MachineLearning():
             columns= category_cols
         )
 
-        pos_sentiments_per_question = np.zeros(7)
-        neg_sentiments_per_question = np.zeros(7)
+        pos_sentiments_per_question = np.zeros(3)
+        neg_sentiments_per_question = np.zeros(3)
         data = self.df_sentiment_analysis_result
 
         for i in range(len(data['Question Number'])):
@@ -141,7 +141,7 @@ class MachineLearning():
     def LatentDirichletAllocation(self, tokens, filename_lda_model, filename_corpus, filename_dictionary):
         dictionary = corpora.Dictionary(tokens)
         corpus = [dictionary.doc2bow(text) for text in tokens]
-        num_topics = 7
+        num_topics = 3
         lda_model = gensim.models.ldamodel.LdaModel(
             corpus=corpus , num_topics=num_topics, random_state=100, update_every=1,
             id2word=dictionary,passes=15
