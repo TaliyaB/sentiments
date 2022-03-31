@@ -14,7 +14,7 @@
 </head>
 <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-info shadow sticky-top ">
-      <a class="navbar-brand" href="#./visuals.html">Perception</a>
+      <a class="navbar-brand" href="{% url 'visuals' %}">Perception</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -26,17 +26,24 @@
     <div class="collapse navbar-collapse" id="portfolio-nav">
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <a href="./visuals.html" class="nav-link">Visuals </a>
+            <a href="{% url 'visuals' %}" class="nav-link">Visuals </a>
           </li>
           <li class="nav-item">
-            <a href="./data.html" class="nav-link"> Data </a>
+            <a href="{% url 'data' %}" class="nav-link"> Data </a>
           </li>
           <li class="nav-item">
-            <a href="./LDA.html" class="nav-link"> LDA </a>
+            <a href="{% url 'lda' %}" class="nav-link"> LDA </a>
           </li>
         </ul>
       </div>
     </nav>
+<!--      -->
+      <div class="container">
+          <img src="..." class="img-fluid" alt="..." id="">
+          <img src="..." class="img-fluid" alt="..." id="">
+          <img src="..." class="img-fluid" alt="..." id="">
+          <img src="..." class="img-fluid" alt="...">
+      </div>
   <!-- JS -->
    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
