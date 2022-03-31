@@ -32,6 +32,7 @@ respondents_per_course.pie(x_data=data.dict_respondents_course.keys(),
                            title="Distribution of Respondents per Course",
                            output_filename="all_generated/respondents_per_course.png")
 
+#adj
 top_n_adj = Visualizer.Visualizer()
 print(machine_learning_processes.df_top_n_adjectives)
 top_n_adj.multiple_bar_for_top_n_words(df_top_n_words=machine_learning_processes.df_top_n_adjectives,
@@ -39,8 +40,23 @@ top_n_adj.multiple_bar_for_top_n_words(df_top_n_words=machine_learning_processes
                                        title="Top Adjectives per Question",
                                        output_file="visuals/templates/top_n_Adjective.png")
 
+#noun
 top_n_noun = Visualizer.Visualizer()
 top_n_noun.multiple_bar_for_top_n_words(df_top_n_words=machine_learning_processes.df_top_n_nouns,
                                          word_type='Noun',
                                          title="Top Nouns per Question",
-                                         output_file="visuals/templates/top_n_Noun.png")
+                                         output_file="visuals/templates/static/top_n_Noun.png")
+
+#block
+respondents_per_block = Visualizer.Visualizer()
+respondents_per_block.pie(x_data=data.dict_respondents_block.keys(),
+                          y_data=data.dict_respondents_block.values(),
+                          title="Distribution of Respondents per Course",
+                          output_filename="visuals/templates/static/respondents_per_block.png")
+
+#course
+respondents_per_course = Visualizer.Visualizer()
+respondents_per_course.pie(x_data=data.dict_respondents_course.keys(),
+                          y_data=data.dict_respondents_course.values(),
+                          title="Distribution of Respondents per Course",
+                          output_filename="visuals/templates/static/respondents_per_course.png")

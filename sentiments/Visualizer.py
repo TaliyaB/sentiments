@@ -41,7 +41,7 @@ class Visualizer():
         plt.ylabel(y_label)
         plt.title(title)
         plt.legend()
-        plt.show()
+        #plt.show()
         plt.savefig(output_file)
         return
 
@@ -51,7 +51,8 @@ class Visualizer():
         fig, ax = plt.subplots(figsize=(8,5))
         ax.pie(y_data, labels=x_data, autopct='%1.1f%%')
         ax.axis('equal')  #draw as circle
-        plt.show()
+        fig.savefig(output_filename)
+        #plt.show()
         return
 
     def multiple_bar_for_top_n_words(self, df_top_n_words, word_type, title, output_file):
@@ -86,7 +87,7 @@ class Visualizer():
         plt.axis('off')
         plt.figtext(0.5, 0.8, title, fontsize = 20, ha='center')
         plt.savefig(output_file)
-        plt.show()
+        #plt.show()
         return
 
     def display_img(self):
