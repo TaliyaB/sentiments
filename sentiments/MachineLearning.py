@@ -1,12 +1,21 @@
 import pandas as pd
+import os
 import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
 nltk.download('vader_lexicon')
 import spacy
 spacy.cli.download("en_core_web_md")
+import en_core_web_md
+from sentiments import Visualizer
 from nltk.sentiment import SentimentIntensityAnalyzer
+import collections
 from statistics import mean
 import gensim
 from gensim import  corpora
+import pyLDAvis.gensim_models
 import  pickle
 import numpy as np
 
