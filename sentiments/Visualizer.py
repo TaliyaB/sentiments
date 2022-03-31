@@ -20,7 +20,7 @@ class Visualizer():
         plt.xticks(rotation=45)
         plt.ylabel(y_label, fontsize=fontsize)
         plt.tight_layout()
-        plt.show()
+        #plt.show()
         plt.savefig(output_file)
         return
 

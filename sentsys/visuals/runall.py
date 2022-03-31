@@ -37,5 +37,10 @@ print(machine_learning_processes.df_top_n_adjectives)
 top_n_adj.multiple_bar_for_top_n_words(df_top_n_words=machine_learning_processes.df_top_n_adjectives,
                                        word_type='Adjective',
                                        title="Top Adjectives per Question",
-                                       output_file="all_generated/top_n_Adjective.png")
+                                       output_file="visuals/templates/top_n_Adjective.png")
 
+top_n_noun = Visualizer.Visualizer()
+top_n_noun.multiple_bar_for_top_n_words(df_top_n_words=machine_learning_processes.df_top_n_nouns,
+                                         word_type='Noun',
+                                         title="Top Nouns per Question",
+                                         output_file="visuals/templates/top_n_Noun.png")
