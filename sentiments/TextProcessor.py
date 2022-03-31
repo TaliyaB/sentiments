@@ -43,14 +43,15 @@ class TextProcessor():
         self.int_respondents_count = len(self.df_dummy)
         #count respondents per course
         for i in range(len(self.df_dummy)):
-            if 'bsit' in self.df_dummy[i].lower():
+            print(self.df_dummy[i])
+            if 'bsit' in self.df_dummy[i].lower() and 'animation' not in self.df_dummy[i].lower():
                 self.dict_respondents_course['BSIT']+=1
-            if 'bscs' in self.df_dummy[i].lower:
+            if 'bscs' in self.df_dummy[i].lower():
                 self.dict_respondents_course['BSCS']+=1
             if 'bsis' in self.df_dummy[i].lower():
                 self.dict_respondents_course['BSIS']+=1
             if 'animation' in self.df_dummy[i].lower():
-                self.dict_respondents_course['BSIT-Animation'].lower()
+                self.dict_respondents_course['BSIT-Animation']+=1
         self.df_dummy = None
         return
 

@@ -1,8 +1,3 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import os
-from sentiments import MachineLearning
-
 class Visualizer:
     def __init__(self):
         self.df_data = df

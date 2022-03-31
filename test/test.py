@@ -1,7 +1,7 @@
 """
 Tester Code
 """
-from sentiments import TextProcessor, Visualizer, MachineLearning
+from sentsys.visuals import TextProcessor
 import os
 
 p= os.path.join(os.getcwd(), "sample_data\\Student' s Perception towards Online Learning Questionnaire.csv")

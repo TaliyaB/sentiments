@@ -1,7 +1,3 @@
-import pandas as pd
-import os
-from sentiments import TextProcessor
-
 class MachineLearning:
     def __init__(self):
         self.df_top_n_words = None
