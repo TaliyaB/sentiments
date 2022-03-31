@@ -26,7 +26,6 @@ respondents_per_block.pie(x_data=data.dict_respondents_block.keys(),
                           title="Distribution of Respondents per Course",
                           output_filename="all_generated/respondents_per_block.png")
 respondents_per_course = Visualizer.Visualizer()
-respondents_per_course = Visualizer.Visualizer()
 print(data.dict_respondents_course)
 respondents_per_course.pie(x_data=data.dict_respondents_course.keys(),
                            y_data=data.dict_respondents_course.values(),
