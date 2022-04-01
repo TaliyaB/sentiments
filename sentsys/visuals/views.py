@@ -56,7 +56,10 @@ def adj2(request):
     template = loader.get_template('adj2.html')
     return HttpResponse(template.render())
 
+def poslda(request):
+    template = loader.get_template('pos-lda.html')
+    return HttpResponse(template.render())
 
-def preprocessed(request):
-    template = loader.get_template('preprocessed.html')
+def neglda(request):
+    template = loader.get_template('neg-lda.html')
     return HttpResponse(template.render())

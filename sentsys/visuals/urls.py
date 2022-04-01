@@ -13,5 +13,7 @@ urlpatterns = [
     path('adj0', views.adj0, name='adj0'),
     path('adj1', views.adj1, name='adj1'),
     path('adj2', views.adj2, name='adj2'),
+    path('poslda', views.poslda, name='poslda'),
+    path('neglda', views.neglda, name='neglda'),
     path('admin/', admin.site.urls),
 ]
