@@ -4,7 +4,7 @@ DATA EXTRACTOR CODE
 from sentiments import TextProcessor, Visualizer, MachineLearning
 import os
 import pandas as pd
-path =  "C:\\Users\\user\\Documents\\Freelance\\sentiments\\sample_data\\Student' s Perception towards Online Learning Questionnaire.csv (1)\\Student' s Perception towards Online Learning Questionnaire.csv"
+#path =  "C:\\Users\\user\\Documents\\Freelance\\sentiments\\sample_data\\Student' s Perception towards Online Learning Questionnaire.csv (1)\\Student' s Perception towards Online Learning Questionnaire.csv"
 path = os.path.join(os.getcwd(), path)
 
 #create data object
