@@ -4,10 +4,12 @@ from django.template import loader
 from django.core.files.storage import FileSystemStorage
 from subprocess import run, PIPE
 from django.http import HttpResponseRedirect
-
+import requests
 import sys
 def index(request):
-    return HttpResponse("Hello world!")
+    r = requests.get('https://httpbin.org/status/418')
+    print(r.text)
+    return HttpResponse('<pre>' + r.text + '</pre>')
 
 def primary(path):
     """

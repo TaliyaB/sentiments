@@ -18,3 +18,7 @@ spacy
 flask
 flask_bootstrap
 django
+gunicorn
+django-heroku
+requests
+whitenoise
