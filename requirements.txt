@@ -17,6 +17,3 @@ pyLDAvis
 spacy
 flask
 flask_bootstrap
-wordnet
-pros_cons
-reuters

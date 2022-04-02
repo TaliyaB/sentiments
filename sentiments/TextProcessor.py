@@ -1,10 +1,10 @@
 import pandas as pd
 import os
 import nltk
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('wordnet')
+#nltk.download('punkt')
+#nltk.download('stopwords')
+#nltk.download('averaged_perceptron_tagger')
+#nltk.download('wordnet')
 from  nltk.corpus import stopwords
 from  nltk.tokenize import word_tokenize
 import spacy
