@@ -1,3 +1,3 @@
 web: git clone https://github.com/TaliyaB/sentiments
 web: pip install .
-web: python sentsys/manage.py runserver
+web: py sentsys/manage.py runserver
