@@ -1,1 +1,2 @@
-web: gunicorn sentsys/sentsys.wsgi --log-file -
+web: cd sentsys
+web: gunicorn sentsys.wsgi --log-file -
